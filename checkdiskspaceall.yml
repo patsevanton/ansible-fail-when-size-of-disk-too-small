@@ -1,7 +1,6 @@
 ---
 - hosts: all
   become: yes
-  become_method: sudo
   gather_facts: yes
   tasks:
      - name: Collect only facts about hardware
@@ -25,7 +24,7 @@
       - name: Checking space
         assert:
           that:
-              - item.size_available|int > 104857600
+            - item.size_available|int > 104857600
         when: item.mount == "/boot"
         with_items: "{{ ansible_mounts }}"
         register: disk_free
