@@ -35,7 +35,7 @@
       register: disk_free
 
     - debug:
-        msg: "item.size_available|int {{ item.size_available|int }}"
+        msg: "item.size_available / 1000000000 {{ item.size_available / 1000000000 }}"
       when: item.mount == "/"
       with_items: "{{ ansible_mounts }}"
 
