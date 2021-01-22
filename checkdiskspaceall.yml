@@ -26,16 +26,16 @@
       vars:
         mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
 
-    - name: Checking space
+    - name: Checking space for "/"
       assert:
         that:
-          - item.size_available|int > 104857600
+          - (item.size_available / 1024*1024*1024) | round | int > 21
       when: item.mount == "/"
       with_items: "{{ ansible_mounts }}"
       register: disk_free
 
     - debug:
-        msg: "item.size_available / 1000000000 | round | int {{ item.size_available / 1000000000 | round | int }}"
+        msg: "(item.size_available / 1024*1024*1024 ) | round | int {{ (item.size_available / 1024*1024*1024 ) | round | int }}"
       when: item.mount == "/"
       with_items: "{{ ansible_mounts }}"
 
