@@ -11,23 +11,28 @@
     - name: Test for available disk space
       setup: filter=ansible_mounts
 
-    - name: Ensure that free space on the tested volume is greater than 15%
-      assert:
-        that:
-          - mount.size_available > mount.size_total|float * 0.05
-        msg: Disk space has reached 95% threshold
-      vars:
-        mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
-      with_items:
-        - "{{ ansible_mounts }}"
-
-    - name: Checking space
-      assert:
-        that:
-          - item.size_available|int > 104857600
-      when: item.mount == "/boot"
-      with_items: "{{ ansible_mounts }}"
-      register: disk_free
+    # - name: Ensure that free space on the tested volume is greater than 15%
+    #   assert:
+    #     that:
+    #       - mount.size_available > mount.size_total|float * 0.05
+    #     msg: Disk space has reached 95% threshold
+    #   vars:
+    #     mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
+    #   with_items:
+    #     - "{{ ansible_mounts }}"
 
     - debug:
         msg: "ansible_mounts {{ ansible_mounts }}"
+      vars:
+        mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
+
+    # - name: Checking space
+    #   assert:
+    #     that:
+    #       - item.size_available|int > 104857600
+    #   when: item.mount == "/boot"
+    #   with_items: "{{ ansible_mounts }}"
+    #   register: disk_free
+
+    - debug:
+        msg: "item.size_available|int {{ item.size_available|int }}"
