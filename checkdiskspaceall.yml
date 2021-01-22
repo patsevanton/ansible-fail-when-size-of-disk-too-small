@@ -26,15 +26,20 @@
       vars:
         mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
 
-    # - name: Checking space
-    #   assert:
-    #     that:
-    #       - item.size_available|int > 104857600
-    #   when: item.mount == "/boot"
-    #   with_items: "{{ ansible_mounts }}"
-    #   register: disk_free
+    - name: Checking space
+      assert:
+        that:
+          - item.size_available|int > 104857600
+      when: item.mount == "/"
+      with_items: "{{ ansible_mounts }}"
+      register: disk_free
 
     - debug:
         msg: "item.size_available|int {{ item.size_available|int }}"
-      when: item.mount == "/boot"
+      when: item.mount == "/"
+      with_items: "{{ ansible_mounts }}"
+
+    - debug:
+        msg: "item.size_available {{ item.size_available }}"
+      when: item.mount == "/"
       with_items: "{{ ansible_mounts }}"
