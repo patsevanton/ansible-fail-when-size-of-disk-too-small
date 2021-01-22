@@ -35,4 +35,4 @@
     #   register: disk_free
 
     - debug:
-        msg: "item.size_available|int {{ item.size_available|int }}"
+        msg: "ansible_mounts.size_available|int {{ ansible_mounts.size_available|int }}"
