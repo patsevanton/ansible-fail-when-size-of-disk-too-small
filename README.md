@@ -1,0 +1,1 @@
+# ansible-fail-when-size-of-disk-too-small
