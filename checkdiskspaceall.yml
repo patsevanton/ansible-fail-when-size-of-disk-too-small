@@ -1,4 +1,3 @@
-# https://gist.github.com/goodc0re/cbaffab5674cc9324ecb591ab350e564
 ---
 - hosts: all
   become: yes
